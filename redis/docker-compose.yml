@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  redis:
+    image: redis
+    container_name: redis  #容器名，自定义
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - ./data:/data:rw
+      - ./conf/redis.conf:/usr/local/etc/redis/redis.conf:rw
+    restart: always
+    command:
+      - /bin/bash
+      - -c
+      - redis-server /usr/local/etc/redis/redis.conf  --requirepass "${REDIS_PASSWD}"
+    networks:
+      - redis-net
+networks:
+  redis-net:
+    external: true
